@@ -4,6 +4,8 @@ A small vocabulary trainer in a single HTML file. You add words with translation
 
 The interface itself is in Russian.
 
+domain: satvocab.gt.tc
+
 ## Features
 
 - Word list with English words, Russian translations, and optional synonyms on both sides.
