@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Vocabulary</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #d7ecfb;
+      color: #222;
+    }
+
+    .top {
+      background: #2b6cb0;
+      color: white;
+      padding: 18px 12px 16px;
+      text-align: center;
+      border-bottom: 5px solid #f4c430;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 620px;
+      margin: 20px auto;
+      padding: 0 12px 40px;
+    }
+
+    .card {
+      background: white;
+      border: 2px solid #7eb6e0;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 3px 3px 0 #9cc9e8;
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: #1e4e8c;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 140px;
+      padding: 8px 10px;
+      border: 1px solid #8ab4d4;
+      border-radius: 4px;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #2b6cb0;
+      background: #f7fbff;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 4px;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: #2b6cb0;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e6eef6;
+      color: #1e4e8c;
+      border: 1px solid #b7cde0;
+    }
+
+    .btn-success {
+      background: #3d9b54;
+      color: white;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    .btn-danger {
+      background: none;
+      border: none;
+      color: #c0392b;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #555;
+      margin: 6px 0 0;
+    }
+
+    .mode-switch {
+      display: flex;
+      gap: 0;
+      margin-top: 12px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 9px 6px;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      background: #e6eef6;
+      color: #1e4e8c;
+      border: 1px solid #b7cde0;
+    }
+
+    .mode-btn:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+
+    .mode-btn:last-child {
+      border-radius: 0 4px 4px 0;
+      border-left: 0;
+    }
+
+    .mode-btn.active {
+      background: #2b6cb0;
+      color: white;
+      border-color: #2b6cb0;
+      font-weight: bold;
+    }
+
+    .word-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .word-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 8px;
+      margin-bottom: 6px;
+      background: #f3f8fc;
+      border: 1px solid #d5e6f3;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .word-list li.off {
+      opacity: 0.45;
+      background: #eee;
+    }
+
+    .word-list .en {
+      color: #1e4e8c;
+      font-weight: bold;
+    }
+
+    .word-list .ru {
+      color: #444;
+    }
+
+    .word-list .syn {
+      color: #6a8aaa;
+      font-size: 13px;
+    }
+
+    .word-list .text {
+      flex: 1;
+    }
+
+    .empty-hint {
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .file-actions .btn {
+      flex: 1;
+    }
+
+    .storage-status {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .storage-status.ok {
+      color: #2e7d32;
+    }
+
+    #quiz-section {
+      display: none;
+    }
+
+    #quiz-section.active {
+      display: block;
+    }
+
+    #input-section.hidden {
+      display: none;
+    }
+
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 8px;
+      background: #dbeaf5;
+      border-radius: 4px;
+      margin: 0 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: #f4c430;
+      border-radius: 4px;
+    }
+
+    .quiz-word {
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: #1e4e8c;
+      margin: 18px 0;
+    }
+
+    .quiz-hint {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 12px;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct {
+      background: #e4f7e8;
+      border: 1px solid #8fd19a;
+      color: #1e6b2f;
+    }
+
+    .feedback.incorrect {
+      background: #fde8e6;
+      border: 1px solid #f0b0a8;
+      color: #9b2c22;
+    }
+
+    .results {
+      text-align: center;
+    }
+
+    .score {
+      font-size: 40px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin: 10px 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .actions .btn {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <h1>English Vocabulary</h1>
+  </div>
+
+  <div class="container">
+    <div id="input-section">
+      <div class="card">
+        <h2>Новое слово</h2>
+        <div class="input-row">
+          <input type="text" id="english-input" placeholder="English" autocomplete="off">
+          <input type="text" id="synonyms-input" placeholder="синонимы через запятую" autocomplete="off">
+        </div>
+        <div class="input-row">
+          <input type="text" id="russian-input" placeholder="перевод на русский" autocomplete="off">
+          <input type="text" id="russian-synonyms-input" placeholder="русские синонимы через запятую" autocomplete="off">
+        </div>
+        <div class="input-row">
+          <button class="btn btn-primary" id="add-btn" style="width:100%">добавить</button>
+        </div>
+        <p class="hint">синонимы не обязательны. Если их несколько, слово выпадет несколько раз: в режиме «русский → английский» по числу английских вариантов, в режиме «английский → русский» по числу русских</p>
+      </div>
+
+      <div class="card">
+        <h2>Мои слова (<span id="word-count">0</span>, в игре <span id="game-count">0</span>)</h2>
+        <ul class="word-list" id="word-list"></ul>
+        <p class="empty-hint" id="empty-hint">пока пусто, добавь хоть одно</p>
+        <p class="hint">галочка = слово будет в раунде. Крестик удаляет совсем</p>
+
+        <div class="mode-switch">
+          <button class="mode-btn" data-mode="ru-en">русский → английский</button>
+          <button class="mode-btn" data-mode="en-ru">английский → русский</button>
+        </div>
+
+        <button class="btn btn-success" id="start-btn" disabled>Начать раунд</button>
+        <div class="file-actions">
+          <button class="btn btn-secondary" id="export-btn">Скачать слова</button>
+          <button class="btn btn-secondary" id="import-btn">Загрузить слова</button>
+          <input type="file" id="import-file" accept=".json,application/json" hidden>
+        </div>
+        <p class="storage-status" id="storage-status"></p>
+      </div>
+    </div>
+
+    <div id="quiz-section">
+      <div class="card">
+        <div class="progress">
+          <span id="progress-text">1 / 5</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <span id="score-text">0 верно</span>
+        </div>
+
+        <div id="quiz-active">
+          <div class="quiz-word" id="quiz-word"></div>
+          <p class="quiz-hint" id="quiz-hint">напиши по-английски</p>
+          <div class="input-row">
+            <input type="text" id="answer-input" placeholder="English..." autocomplete="off">
+            <button class="btn btn-primary" id="check-btn">проверить</button>
+          </div>
+          <div class="feedback" id="feedback"></div>
+        </div>
+
+        <div id="quiz-results" class="results" style="display: none;">
+          <h2>раунд закончен</h2>
+          <div class="score" id="final-score">0 / 0</div>
+          <p id="final-message"></p>
+          <div class="actions">
+            <button class="btn btn-success" id="restart-btn" style="margin-top:0">ещё раз</button>
+            <button class="btn btn-secondary" id="back-btn">к списку</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'vocabulary-words';
+    const MODE_KEY = 'vocabulary-mode';
+    const words = [];
+    let fileBackend = false;
+    let mode = 'ru-en'; // 'ru-en' = дают русское, пишешь английское; 'en-ru' = наоборот
+
+    const englishInput = document.getElementById('english-input');
+    const synonymsInput = document.getElementById('synonyms-input');
+    const russianInput = document.getElementById('russian-input');
+    const russianSynonymsInput = document.getElementById('russian-synonyms-input');
+    const addBtn = document.getElementById('add-btn');
+    const wordList = document.getElementById('word-list');
+    const wordCount = document.getElementById('word-count');
+    const gameCount = document.getElementById('game-count');
+    const emptyHint = document.getElementById('empty-hint');
+    const startBtn = document.getElementById('start-btn');
+    const exportBtn = document.getElementById('export-btn');
+    const importBtn = document.getElementById('import-btn');
+    const importFile = document.getElementById('import-file');
+    const storageStatus = document.getElementById('storage-status');
+    const modeButtons = document.querySelectorAll('.mode-btn');
+
+    const inputSection = document.getElementById('input-section');
+    const quizSection = document.getElementById('quiz-section');
+    const quizActive = document.getElementById('quiz-active');
+    const quizResults = document.getElementById('quiz-results');
+    const quizWord = document.getElementById('quiz-word');
+    const quizHint = document.getElementById('quiz-hint');
+    const answerInput = document.getElementById('answer-input');
+    const checkBtn = document.getElementById('check-btn');
+    const feedback = document.getElementById('feedback');
+    const progressText = document.getElementById('progress-text');
+    const progressFill = document.getElementById('progress-fill');
+    const scoreText = document.getElementById('score-text');
+    const finalScore = document.getElementById('final-score');
+    const finalMessage = document.getElementById('final-message');
+    const restartBtn = document.getElementById('restart-btn');
+    const backBtn = document.getElementById('back-btn');
+
+    let quizOrder = [];
+    let currentIndex = 0;
+    let correctCount = 0;
+    let waitingForNext = false;
+    let usedAnswers = {};
+    let nextTimer = null;
+
+    function normalize(str) {
+      return str.trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    function splitParts(str) {
+      return String(str || '')
+        .split(/[,;/]/)
+        .map(s => s.trim())
+        .filter(Boolean);
+    }
+
+    function uniqueKeepOrder(list) {
+      const seen = new Set();
+      const out = [];
+      list.forEach(item => {
+        const key = normalize(item);
+        if (!key || seen.has(key)) return;
+        seen.add(key);
+        out.push(item.trim());
+      });
+      return out;
+    }
+
+    function englishOptions(word) {
+      const extra = Array.isArray(word.synonyms) ? word.synonyms : splitParts(word.synonyms);
+      return uniqueKeepOrder([word.english, ...extra, ...splitParts(word.english)]);
+    }
+
+    function russianOptions(word) {
+      const extra = Array.isArray(word.russianSynonyms) ? word.russianSynonyms : splitParts(word.russianSynonyms);
+      return uniqueKeepOrder([word.russian, ...extra, ...splitParts(word.russian)]);
+    }
+
+    // какие ответы считаются правильными в текущем режиме
+    function answerOptions(word) {
+      return mode === 'ru-en' ? englishOptions(word) : russianOptions(word);
+    }
+
+    // true если строки совпадают или отличаются ровно одной буквой
+    // (заменена, пропущена или лишняя). Для коротких слов (меньше 3 букв) только точное совпадение
+    function withinOneEdit(a, b) {
+      if (a === b) return true;
+      if (b.length < 3) return false;
+      if (Math.abs(a.length - b.length) > 1) return false;
+      let i = 0;
+      while (i < a.length && i < b.length && a[i] === b[i]) i++;
+      if (a.length === b.length) return a.slice(i + 1) === b.slice(i + 1);
+      if (a.length > b.length) return a.slice(i + 1) === b.slice(i);
+      return a.slice(i) === b.slice(i + 1);
+    }
+
+    // ищет подходящий вариант: сначала точный, потом с одной ошибкой
+    function matchOption(answer, options) {
+      if (!answer) return null;
+      const exact = options.find(opt => opt === answer);
+      if (exact) return exact;
+      return options.find(opt => withinOneEdit(answer, opt)) || null;
+    }
+
+    function parseWord(item) {
+      if (!item || typeof item.english !== 'string' || typeof item.russian !== 'string') {
+        return null;
+      }
+      const englishParts = uniqueKeepOrder(splitParts(item.english).length ? splitParts(item.english) : [item.english]);
+      const extra = Array.isArray(item.synonyms) ? item.synonyms : splitParts(item.synonyms);
+      const synonyms = uniqueKeepOrder([...englishParts.slice(1), ...extra])
+        .filter(s => normalize(s) !== normalize(englishParts[0] || ''));
+      const russianParts = uniqueKeepOrder(splitParts(item.russian).length ? splitParts(item.russian) : [item.russian]);
+      const russianExtra = Array.isArray(item.russianSynonyms) ? item.russianSynonyms : splitParts(item.russianSynonyms);
+      const russianSynonyms = uniqueKeepOrder([...russianParts.slice(1), ...russianExtra])
+        .filter(s => normalize(s) !== normalize(russianParts[0] || ''));
+      return {
+        english: englishParts[0] || item.english.trim(),
+        synonyms,
+        russian: russianParts[0] || item.russian.trim(),
+        russianSynonyms,
+        enabled: item.enabled !== false
+      };
+    }
+
+    function parseWordList(data) {
+      if (!Array.isArray(data)) return [];
+      return data.map(parseWord).filter(Boolean);
+    }
+
+    function enabledWords() {
+      return words.filter(w => w.enabled);
+    }
+
+    function loadFromLocalStorage() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function loadMode() {
+      try {
+        const saved = localStorage.getItem(MODE_KEY);
+        if (saved === 'ru-en' || saved === 'en-ru') mode = saved;
+      } catch {}
+    }
+
+    function setMode(next) {
+      mode = next;
+      try {
+        localStorage.setItem(MODE_KEY, mode);
+      } catch {}
+      renderMode();
+    }
+
+    function renderMode() {
+      modeButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+    }
+
+    function saveWords() {
+      if (fileBackend) {
+        fetch('/api/words', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(words)
+        }).catch(() => {});
+        return;
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+      } catch {}
+    }
+
+    function updateStorageHint() {
+      if (fileBackend) {
+        storageStatus.textContent = 'сохраняется в words.json, так что после сброса браузера слова останутся';
+        storageStatus.className = 'storage-status ok';
+      } else {
+        storageStatus.textContent = 'сейчас в браузере. лучше запустить start.bat или скачать слова перед сбросом';
+        storageStatus.className = 'storage-status';
+      }
+    }
+
+    function replaceWords(next) {
+      words.length = 0;
+      words.push(...next);
+      saveWords();
+      renderWordList();
+    }
+
+    function exportWords() {
+      const blob = new Blob([JSON.stringify(words, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'words.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importWords(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const imported = parseWordList(JSON.parse(reader.result));
+          if (imported.length === 0 && !confirm('в файле пусто. заменить список?')) return;
+          replaceWords(imported);
+        } catch {
+          alert('этот файл не открылся. нужен json который скачивается кнопкой выше');
+        }
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+
+    async function init() {
+      loadMode();
+      renderMode();
+
+      try {
+        const res = await fetch('/api/words');
+        if (res.ok) {
+          fileBackend = true;
+          words.push(...parseWordList(await res.json()));
+        }
+      } catch {
+        fileBackend = false;
+      }
+
+      const fromBrowser = parseWordList(loadFromLocalStorage());
+      if (!fileBackend) {
+        words.push(...fromBrowser);
+      } else if (words.length === 0 && fromBrowser.length > 0) {
+        words.push(...fromBrowser);
+        saveWords();
+      }
+
+      updateStorageHint();
+      renderWordList();
+    }
+
+    function renderWordList() {
+      wordList.innerHTML = '';
+      words.forEach((word, index) => {
+        const synText = word.synonyms.length ? ` (${word.synonyms.join(', ')})` : '';
+        const ruSynText = word.russianSynonyms.length ? ` (${word.russianSynonyms.join(', ')})` : '';
+        const li = document.createElement('li');
+        if (!word.enabled) li.className = 'off';
+        li.innerHTML = `
+          <input type="checkbox" class="use-in-game" ${word.enabled ? 'checked' : ''} title="в игре">
+          <span class="text">
+            <span class="en">${escapeHtml(word.english)}</span><span class="syn">${escapeHtml(synText)}</span>
+            — <span class="ru">${escapeHtml(word.russian)}</span><span class="syn">${escapeHtml(ruSynText)}</span>
+          </span>
+          <button class="btn-danger remove-btn" title="удалить">&times;</button>
+        `;
+        li.querySelector('.use-in-game').addEventListener('change', e => {
+          words[index].enabled = e.target.checked;
+          saveWords();
+          renderWordList();
+        });
+        li.querySelector('.remove-btn').addEventListener('click', () => {
+          words.splice(index, 1);
+          saveWords();
+          renderWordList();
+        });
+        wordList.appendChild(li);
+      });
+
+      const inGame = enabledWords().length;
+      wordCount.textContent = words.length;
+      gameCount.textContent = inGame;
+      emptyHint.style.display = words.length === 0 ? 'block' : 'none';
+      startBtn.disabled = inGame === 0;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function addWord() {
+      const parsed = parseWord({
+        english: englishInput.value,
+        synonyms: splitParts(synonymsInput.value),
+        russian: russianInput.value,
+        russianSynonyms: splitParts(russianSynonymsInput.value),
+        enabled: true
+      });
+      if (!parsed) return;
+
+      words.push(parsed);
+      saveWords();
+      englishInput.value = '';
+      synonymsInput.value = '';
+      russianInput.value = '';
+      russianSynonymsInput.value = '';
+      englishInput.focus();
+      renderWordList();
+    }
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      quizOrder = [];
+      enabledWords().forEach(word => {
+        const i = words.indexOf(word);
+        // слово выпадает по разу на каждый вариант ответа (синоним) в текущем режиме
+        const n = answerOptions(word).length;
+        for (let k = 0; k < n; k++) quizOrder.push(i);
+      });
+      quizOrder = shuffle(quizOrder);
+      currentIndex = 0;
+      correctCount = 0;
+      waitingForNext = false;
+      usedAnswers = {};
+      clearTimeout(nextTimer);
+
+      if (mode === 'ru-en') {
+        quizHint.textContent = 'напиши по-английски';
+        answerInput.placeholder = 'English...';
+      } else {
+        quizHint.textContent = 'напиши перевод по-русски';
+        answerInput.placeholder = 'по-русски...';
+      }
+
+      inputSection.classList.add('hidden');
+      quizSection.classList.add('active');
+      quizActive.style.display = 'block';
+      quizResults.style.display = 'none';
+      checkBtn.textContent = 'проверить';
+
+      showQuestion();
+    }
+
+    function unusedOptions(wordIndex) {
+      const options = answerOptions(words[wordIndex]).map(normalize);
+      const used = usedAnswers[wordIndex] || [];
+      return options.filter(opt => !used.includes(opt));
+    }
+
+    function showQuestion() {
+      const word = words[quizOrder[currentIndex]];
+      quizWord.textContent = mode === 'ru-en' ? word.russian : word.english;
+      answerInput.value = '';
+      answerInput.disabled = false;
+      checkBtn.disabled = false;
+      feedback.classList.remove('show', 'correct', 'incorrect');
+      waitingForNext = false;
+
+      const total = quizOrder.length;
+      progressText.textContent = `${currentIndex + 1} / ${total}`;
+      progressFill.style.width = `${(currentIndex / total) * 100}%`;
+      scoreText.textContent = `${correctCount} верно`;
+      answerInput.focus();
+    }
+
+    function checkAnswer() {
+      if (waitingForNext) {
+        nextQuestion();
+        return;
+      }
+
+      const wordIndex = quizOrder[currentIndex];
+      const word = words[wordIndex];
+      const userAnswer = normalize(answerInput.value);
+      const all = answerOptions(word).map(normalize);
+      const unused = unusedOptions(wordIndex);
+      const used = all.filter(opt => !unused.includes(opt));
+
+      const hit = matchOption(userAnswer, unused);
+
+      if (hit) {
+        if (!usedAnswers[wordIndex]) usedAnswers[wordIndex] = [];
+        usedAnswers[wordIndex].push(hit);
+        correctCount++;
+
+        const typo = hit !== userAnswer;
+        if (typo) {
+          feedback.innerHTML = 'верно, но там опечатка. правильно: <strong>' + escapeHtml(hit) + '</strong>';
+        } else {
+          feedback.textContent = 'верно';
+        }
+        feedback.className = 'feedback show correct';
+        scoreText.textContent = `${correctCount} верно`;
+        waitingForNext = true;
+        answerInput.disabled = true;
+        clearTimeout(nextTimer);
+        nextTimer = setTimeout(nextQuestion, typo ? 1600 : 700);
+        return;
+      }
+
+      waitingForNext = true;
+      answerInput.disabled = true;
+      checkBtn.textContent = 'дальше';
+
+      if (matchOption(userAnswer, used)) {
+        feedback.innerHTML = 'этот вариант уже был. нужен другой синоним: <strong>' +
+          escapeHtml(unused.join(', ') || answerOptions(word).join(', ')) + '</strong>';
+      } else {
+        feedback.innerHTML = 'неверно. можно: <strong>' +
+          escapeHtml(unused.join(', ') || answerOptions(word).join(', ')) + '</strong>';
+      }
+      feedback.className = 'feedback show incorrect';
+    }
+
+    function nextQuestion() {
+      clearTimeout(nextTimer);
+      currentIndex++;
+      if (currentIndex >= quizOrder.length) {
+        showResults();
+        return;
+      }
+      checkBtn.textContent = 'проверить';
+      showQuestion();
+    }
+
+    function showResults() {
+      quizActive.style.display = 'none';
+      quizResults.style.display = 'block';
+      progressFill.style.width = '100%';
+
+      const total = quizOrder.length;
+      finalScore.textContent = `${correctCount} / ${total}`;
+
+      const percent = Math.round((correctCount / total) * 100);
+      if (percent === 100) {
+        finalMessage.textContent = 'всё верно, нормас';
+      } else if (percent >= 70) {
+        finalMessage.textContent = 'нормально, но можно лучше';
+      } else {
+        finalMessage.textContent = 'надо ещё поучить';
+      }
+    }
+
+    function backToList() {
+      clearTimeout(nextTimer);
+      quizSection.classList.remove('active');
+      inputSection.classList.remove('hidden');
+      checkBtn.textContent = 'проверить';
+    }
+
+    addBtn.addEventListener('click', addWord);
+    englishInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') synonymsInput.focus();
+    });
+    synonymsInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') russianInput.focus();
+    });
+    russianInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') russianSynonymsInput.focus();
+    });
+    russianSynonymsInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') addWord();
+    });
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', () => setMode(btn.dataset.mode));
+    });
+    startBtn.addEventListener('click', startQuiz);
+    checkBtn.addEventListener('click', checkAnswer);
+    answerInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkAnswer();
+    });
+    restartBtn.addEventListener('click', startQuiz);
+    backBtn.addEventListener('click', backToList);
+    exportBtn.addEventListener('click', exportWords);
+    importBtn.addEventListener('click', () => importFile.click());
+    importFile.addEventListener('change', () => {
+      const file = importFile.files[0];
+      if (file) importWords(file);
+      importFile.value = '';
+    });
+
+    init();
+  </script>
+</body>
+</html>

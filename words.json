@@ -1,0 +1,173 @@
+[
+  {
+    "english": "big",
+    "synonyms": [
+      "large"
+    ],
+    "russian": "большой",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "happy",
+    "synonyms": [
+      "glad"
+    ],
+    "russian": "счастливый",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "start",
+    "synonyms": [
+      "begin"
+    ],
+    "russian": "начинать",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "smart",
+    "synonyms": [
+      "clever",
+      "intelligent"
+    ],
+    "russian": "умный",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "buy",
+    "synonyms": [
+      "purchase"
+    ],
+    "russian": "покупать",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "end",
+    "synonyms": [
+      "finish"
+    ],
+    "russian": "заканчивать",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "quick",
+    "synonyms": [
+      "fast"
+    ],
+    "russian": "быстрый",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "house",
+    "synonyms": [],
+    "russian": "дом",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "friend",
+    "synonyms": [],
+    "russian": "друг",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "important",
+    "synonyms": [],
+    "russian": "важный",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "retrieve",
+    "synonyms": [],
+    "russian": "извлекать",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "inhibit",
+    "synonyms": [],
+    "russian": "тормозить",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "mild",
+    "synonyms": [],
+    "russian": "мягкий",
+    "russianSynonyms": [],
+    "enabled": false
+  },
+  {
+    "english": "cue",
+    "synonyms": [],
+    "russian": "сигнал",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "dawn",
+    "synonyms": [],
+    "russian": "рассвет",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "acquire",
+    "synonyms": [
+      "obtain"
+    ],
+    "russian": "приобретать",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "acknowledge",
+    "synonyms": [],
+    "russian": "признавать",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "sincere",
+    "synonyms": [],
+    "russian": "искренний",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "proficient",
+    "synonyms": [
+      "skilled"
+    ],
+    "russian": "опытный",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "encounter",
+    "synonyms": [
+      "meet"
+    ],
+    "russian": "сталкиваться",
+    "russianSynonyms": [],
+    "enabled": true
+  },
+  {
+    "english": "cat",
+    "synonyms": [
+      "kitty",
+      "feline"
+    ],
+    "russian": "кот",
+    "russianSynonyms": [],
+    "enabled": true
+  }
+]
