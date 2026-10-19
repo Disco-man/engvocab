@@ -225,10 +225,6 @@
       color: #666;
     }
 
-    .storage-status.ok {
-      color: #2e7d32;
-    }
-
     #quiz-section {
       display: none;
     }
@@ -275,7 +271,7 @@
 
     .quiz-hint {
       text-align: center;
-      color: #777;
+      color: #f3b5b5;
       font-size: 13px;
       margin-top: -10px;
       margin-bottom: 12px;
@@ -324,11 +320,132 @@
     .actions .btn {
       flex: 1;
     }
+
+    .view-toggle {
+      margin-top: 10px;
+      padding: 5px 12px;
+      font-size: 13px;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 4px;
+    }
+
+    /* минималистичный режим: меньше текста, нейтральные цвета */
+    body.minimal {
+      background: #fff;
+    }
+
+    .minimal .top {
+      background: #fff;
+      color: #222;
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .minimal h1 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 18px;
+      font-weight: normal;
+    }
+
+    .minimal .view-toggle {
+      margin-top: 8px;
+      background: none;
+      color: #666;
+      border-color: #ccc;
+    }
+
+    .minimal .hint,
+    .minimal .empty-hint,
+    .minimal .storage-status,
+    .minimal .quiz-hint,
+    .minimal .subtitle,
+    .minimal #final-message,
+    .minimal #quiz-results h2,
+    .minimal #input-section .card:first-child h2 {
+      display: none;
+    }
+
+    .minimal .card {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: none;
+    }
+
+    .minimal .card h2 {
+      font-size: 15px;
+      color: #222;
+    }
+
+    .minimal input[type="text"] {
+      border-color: #ccc;
+    }
+
+    .minimal input[type="text"]:focus {
+      border-color: #222;
+      background: #fff;
+    }
+
+    .minimal .btn-primary,
+    .minimal .btn-success,
+    .minimal .mode-btn.active {
+      background: #222;
+      border-color: #222;
+      color: #fff;
+    }
+
+    .minimal .btn-secondary,
+    .minimal .mode-btn {
+      background: #fff;
+      color: #222;
+      border: 1px solid #ccc;
+    }
+
+    .minimal .mode-btn.active {
+      background: #222;
+      color: #fff;
+      border-color: #222;
+    }
+
+    .minimal .mode-btn:last-child {
+      border-left: 0;
+    }
+
+    .minimal .word-list li {
+      background: #fafafa;
+      border-color: #e5e5e5;
+    }
+
+    .minimal .word-list li.off {
+      background: #fafafa;
+    }
+
+    .minimal .word-list .en,
+    .minimal .quiz-word,
+    .minimal .score {
+      color: #222;
+    }
+
+    .minimal .word-list .syn {
+      color: #888;
+    }
+
+    .minimal .progress-bar {
+      background: #eee;
+    }
+
+    .minimal .progress-fill {
+      background: #222;
+    }
   </style>
 </head>
 <body>
   <div class="top">
     <h1>English Vocabulary</h1>
+    <button class="view-toggle" id="view-toggle">минимализм</button>
   </div>
 
   <div class="container">
@@ -366,7 +483,7 @@
           <button class="btn btn-secondary" id="import-btn">Загрузить слова</button>
           <input type="file" id="import-file" accept=".json,application/json" hidden>
         </div>
-        <p class="storage-status" id="storage-status"></p>
+        <p class="storage-status">при очистке данных в браузере список может не сохраниться, поэтому лучше скачивать .json файл</p>
       </div>
     </div>
 
@@ -406,6 +523,7 @@
   <script>
     const STORAGE_KEY = 'vocabulary-words';
     const MODE_KEY = 'vocabulary-mode';
+    const VIEW_KEY = 'vocabulary-minimal';
     const words = [];
     let fileBackend = false;
     let mode = 'ru-en'; // 'ru-en' = дают русское, пишешь английское; 'en-ru' = наоборот
@@ -423,8 +541,8 @@
     const exportBtn = document.getElementById('export-btn');
     const importBtn = document.getElementById('import-btn');
     const importFile = document.getElementById('import-file');
-    const storageStatus = document.getElementById('storage-status');
     const modeButtons = document.querySelectorAll('.mode-btn');
+    const viewToggle = document.getElementById('view-toggle');
 
     const inputSection = document.getElementById('input-section');
     const quizSection = document.getElementById('quiz-section');
@@ -569,6 +687,27 @@
       });
     }
 
+    function applyView(minimal) {
+      document.body.classList.toggle('minimal', minimal);
+      viewToggle.textContent = minimal ? 'обычный' : 'минимализм';
+    }
+
+    function loadView() {
+      try {
+        applyView(localStorage.getItem(VIEW_KEY) === '1');
+      } catch {
+        applyView(false);
+      }
+    }
+
+    function toggleView() {
+      const minimal = !document.body.classList.contains('minimal');
+      applyView(minimal);
+      try {
+        localStorage.setItem(VIEW_KEY, minimal ? '1' : '0');
+      } catch {}
+    }
+
     function saveWords() {
       if (fileBackend) {
         fetch('/api/words', {
@@ -581,16 +720,6 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
       } catch {}
-    }
-
-    function updateStorageHint() {
-      if (fileBackend) {
-        storageStatus.textContent = 'сохраняется в words.json, так что после сброса браузера слова останутся';
-        storageStatus.className = 'storage-status ok';
-      } else {
-        storageStatus.textContent = 'сейчас в браузере. лучше запустить start.bat или скачать слова перед сбросом';
-        storageStatus.className = 'storage-status';
-      }
     }
 
     function replaceWords(next) {
@@ -627,6 +756,7 @@
     async function init() {
       loadMode();
       renderMode();
+      loadView();
 
       try {
         const res = await fetch('/api/words');
@@ -646,7 +776,6 @@
         saveWords();
       }
 
-      updateStorageHint();
       renderWordList();
     }
 
@@ -875,6 +1004,7 @@
     modeButtons.forEach(btn => {
       btn.addEventListener('click', () => setMode(btn.dataset.mode));
     });
+    viewToggle.addEventListener('click', toggleView);
     startBtn.addEventListener('click', startQuiz);
     checkBtn.addEventListener('click', checkAnswer);
     answerInput.addEventListener('keydown', e => {
